@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Hangfire.Publisher", "Sample.Hangfire.Publisher\Sample.Hangfire.Publisher.csproj", "{F1057E70-48DF-49E2-AA37-DB5835F4418A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Hangfire.API", "Sample.Hangfire.API\Sample.Hangfire.API.csproj", "{12EA376E-E351-47A5-B5DD-7F30342DEACE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Hangfire.Console", "Sample.Hangfire.Console\Sample.Hangfire.Console.csproj", "{0A580579-9251-4316-9D14-8151575A5A72}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1057E70-48DF-49E2-AA37-DB5835F4418A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1057E70-48DF-49E2-AA37-DB5835F4418A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1057E70-48DF-49E2-AA37-DB5835F4418A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1057E70-48DF-49E2-AA37-DB5835F4418A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12EA376E-E351-47A5-B5DD-7F30342DEACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12EA376E-E351-47A5-B5DD-7F30342DEACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12EA376E-E351-47A5-B5DD-7F30342DEACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12EA376E-E351-47A5-B5DD-7F30342DEACE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A580579-9251-4316-9D14-8151575A5A72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A580579-9251-4316-9D14-8151575A5A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A580579-9251-4316-9D14-8151575A5A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A580579-9251-4316-9D14-8151575A5A72}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
