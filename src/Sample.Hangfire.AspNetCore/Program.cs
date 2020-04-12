@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 
-namespace Sample.Hangfire.API
+namespace Sample.Hangfire.AspNetCore
 {
     public class Program
     {

@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Hangfire.Publisher", "Sample.Hangfire.Publisher\Sample.Hangfire.Publisher.csproj", "{F1057E70-48DF-49E2-AA37-DB5835F4418A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Hangfire.API", "Sample.Hangfire.API\Sample.Hangfire.API.csproj", "{12EA376E-E351-47A5-B5DD-7F30342DEACE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Hangfire.AspNetCore", "Sample.Hangfire.AspNetCore\Sample.Hangfire.AspNetCore.csproj", "{12EA376E-E351-47A5-B5DD-7F30342DEACE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Hangfire.Console", "Sample.Hangfire.Console\Sample.Hangfire.Console.csproj", "{0A580579-9251-4316-9D14-8151575A5A72}"
 EndProject

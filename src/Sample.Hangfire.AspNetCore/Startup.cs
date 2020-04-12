@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sample.Hangfire.Core;
 
-namespace Sample.Hangfire.API
+namespace Sample.Hangfire.AspNetCore
 {
     public class Startup
     {
@@ -30,6 +30,8 @@ namespace Sample.Hangfire.API
                     server.ServerName = ServerName;
                     server.Activator = serviceProvider.GetRequiredService<JobActivator>();
                 });
+
+                configure.UseHealthCheck(serviceProvider);
             });
 
             services

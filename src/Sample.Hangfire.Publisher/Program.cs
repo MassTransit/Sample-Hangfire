@@ -41,7 +41,7 @@ namespace Sample.Hangfire.Publisher
             Console.WriteLine("Please enter a message and press Enter key, to quit 'q' and Enter key:");
             var message = Console.ReadLine();
 
-            var uri = new UriBuilder(bus.Address) {Path = KebabCaseEndpointNameFormatter.Instance.Consumer<MessageConsumer>()}.Uri;
+            var uri = new UriBuilder(bus.Address) {Path = KebabCaseEndpointNameFormatter.Instance.Consumer<MessageConsumer>(), Query = ""}.Uri;
             while (message != "q")
             {
                 await bus.ScheduleSend<IMessage>(uri, DateTime.Now.AddSeconds(10), new
