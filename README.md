@@ -15,5 +15,4 @@ This project contains 2 endpoints:
 
 ## Requirements
 
-`rabbitmq` - up and running and change `Rmq` connection string to use your broker.
-
+`rabbitmq` - up and running and change `AppConfiguration.RmqConnectionString` connection string to use your broker.

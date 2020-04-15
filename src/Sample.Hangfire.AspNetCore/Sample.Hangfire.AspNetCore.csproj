@@ -15,5 +15,9 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Sample.Hangfire.Core\Sample.Hangfire.Core.csproj"/>
+  </ItemGroup>
+
 
 </Project>

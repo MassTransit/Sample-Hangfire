@@ -18,16 +18,12 @@ namespace Sample.Hangfire.AspNetCore
             services.AddControllers();
             services.AddHealthChecks();
 
-            const string QueueName = "hangfire";
-            const string ServerName = "MT-AspNetCore";
-            const string Rmq = "rabbitmq://guest:guest@localhost:5672";
-
             static IBusControl CreateBus(IServiceProvider serviceProvider) => Bus.Factory.CreateUsingRabbitMq(configure =>
             {
-                configure.Host(new Uri(Rmq));
-                configure.UseHangfireScheduler(new ServiceProviderHangfireComponentResolver(serviceProvider), QueueName, server =>
+                configure.Host(AppConfiguration.RmqUri);
+                configure.UseHangfireScheduler(new ServiceProviderHangfireComponentResolver(serviceProvider), AppConfiguration.HangfireQueueName, server =>
                 {
-                    server.ServerName = ServerName;
+                    server.ServerName = "MT-AspNetCore";
                     server.Activator = serviceProvider.GetRequiredService<JobActivator>();
                 });
 

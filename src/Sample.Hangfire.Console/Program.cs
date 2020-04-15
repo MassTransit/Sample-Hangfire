@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MassTransit;
 using MassTransit.Context;
+using Sample.Hangfire.Core;
 using Serilog;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
@@ -12,10 +12,6 @@ namespace Sample.Hangfire.Console
     {
         private static async Task Main(string[] args)
         {
-            const string QueueName = "hangfire";
-            const string ServerName = "MT-Console";
-            const string Rmq = "rabbitmq://guest:guest@localhost:5672";
-
             var logger = new LoggerConfiguration()
                 .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
                 .CreateLogger();
@@ -25,9 +21,9 @@ namespace Sample.Hangfire.Console
             {
                 LogContext.ConfigureCurrentLogContext(loggerFactory);
 
-                cfg.Host(new Uri(Rmq));
+                cfg.Host(AppConfiguration.RmqUri);
 
-                cfg.UseHangfireScheduler(QueueName, server => server.ServerName = ServerName);
+                cfg.UseHangfireScheduler(AppConfiguration.HangfireQueueName, server => server.ServerName = "MT-Console");
             });
 
             await bus.StartAsync();
