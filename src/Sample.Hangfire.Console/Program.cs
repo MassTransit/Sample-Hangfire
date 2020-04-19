@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using MassTransit;
 using MassTransit.Context;
 using Sample.Hangfire.Core;
@@ -12,6 +14,9 @@ namespace Sample.Hangfire.Console
     {
         private static async Task Main(string[] args)
         {
+            GlobalConfiguration.Configuration
+                .UseMemoryStorage();
+
             var logger = new LoggerConfiguration()
                 .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
                 .CreateLogger();

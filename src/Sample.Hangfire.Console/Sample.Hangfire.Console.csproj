@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0"/>
     <PackageReference Include="MassTransit.Hangfire" Version="6.2.4"/>
     <PackageReference Include="MassTransit.RabbitMQ" Version="6.2.4"/>
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1"/>
