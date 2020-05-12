@@ -3,6 +3,7 @@ using Hangfire;
 using Hangfire.MemoryStorage;
 using MassTransit;
 using MassTransit.Context;
+using Microsoft.Extensions.Logging;
 using Sample.Hangfire.Core;
 using Serilog;
 using Serilog.Events;
@@ -20,7 +21,7 @@ namespace Sample.Hangfire.Console
             var logger = new LoggerConfiguration()
                 .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
                 .CreateLogger();
-            var loggerFactory = new SerilogLoggerFactory(logger, true);
+            ILoggerFactory loggerFactory = new SerilogLoggerFactory(logger, true);
 
             var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
             {

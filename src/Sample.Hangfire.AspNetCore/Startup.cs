@@ -18,16 +18,16 @@ namespace Sample.Hangfire.AspNetCore
             services.AddControllers();
             services.AddHealthChecks();
 
-            static IBusControl CreateBus(IServiceProvider serviceProvider) => Bus.Factory.CreateUsingRabbitMq(configure =>
+            static IBusControl CreateBus(IRegistrationContext<IServiceProvider> context) => Bus.Factory.CreateUsingRabbitMq(configure =>
             {
                 configure.Host(AppConfiguration.RmqUri);
-                configure.UseHangfireScheduler(new ServiceProviderHangfireComponentResolver(serviceProvider), AppConfiguration.HangfireQueueName, server =>
+                configure.UseHangfireScheduler(new ServiceProviderHangfireComponentResolver(context.Container), AppConfiguration.HangfireQueueName, server =>
                 {
                     server.ServerName = "MT-AspNetCore";
-                    server.Activator = serviceProvider.GetRequiredService<JobActivator>();
+                    server.Activator = context.Container.GetRequiredService<JobActivator>();
                 });
 
-                configure.UseHealthCheck(serviceProvider);
+                configure.UseHealthCheck(context);
             });
 
             services
