@@ -29,7 +29,7 @@ namespace Sample.Hangfire.Console
 
                 cfg.Host(AppConfiguration.RmqUri);
 
-                cfg.UseHangfireScheduler(AppConfiguration.HangfireQueueName, server => server.ServerName = "MT-Console");
+                cfg.UseHangfireScheduler(AppConfiguration.HangfireQueueName);
             });
 
             await bus.StartAsync();

@@ -16,30 +16,25 @@ namespace Sample.Hangfire.AspNetCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddHealthChecks();
 
-            static IBusControl CreateBus(IRegistrationContext<IServiceProvider> context) => Bus.Factory.CreateUsingRabbitMq(configure =>
+            static IBusControl CreateBus(IRegistrationContext<IServiceProvider> context) => Bus.Factory.CreateUsingRabbitMq(configurator =>
             {
-                configure.Host(AppConfiguration.RmqUri);
-                configure.UseHangfireScheduler(new ServiceProviderHangfireComponentResolver(context.Container), AppConfiguration.HangfireQueueName, server =>
-                {
-                    server.ServerName = "MT-AspNetCore";
-                    server.Activator = context.Container.GetRequiredService<JobActivator>();
-                });
-
-                configure.UseHealthCheck(context);
+                configurator.Host(AppConfiguration.RmqUri);
+                configurator.UseHangfireScheduler(context);
+                configurator.UseHealthCheck(context);
             });
 
             services
-                .AddHangfire(configure => configure.UseMemoryStorage())
-                .AddMassTransit(configure => configure.AddBus(CreateBus))
+                .AddHangfire(configuration => configuration.UseMemoryStorage())
+                .AddMassTransit(configurator => configurator.AddBus(CreateBus))
                 .AddMassTransitHostedService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+                app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection()
                 .UseRouting()
