@@ -1,58 +1,59 @@
-﻿using System;
-using System.Threading.Tasks;
-using MassTransit;
-using MassTransit.Context;
-using MassTransit.Definition;
-using Microsoft.Extensions.Logging;
-using Sample.Hangfire.Core;
-using Serilog;
-using Serilog.Events;
-using Serilog.Extensions.Logging;
-
-namespace Sample.Hangfire.Publisher
+﻿namespace Sample.Hangfire.Publisher
 {
-    internal class Program
+    using System.Threading.Tasks;
+    using MassTransit;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Serilog;
+    using Serilog.Events;
+
+
+    public static class Program
     {
-        private static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            var logger = new LoggerConfiguration()
-                .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .MinimumLevel.Override("MassTransit", LogEventLevel.Debug)
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
                 .CreateLogger();
-            ILoggerFactory loggerFactory = new SerilogLoggerFactory(logger, true);
 
-            var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
-            {
-                LogContext.ConfigureCurrentLogContext(loggerFactory);
+            var host = CreateHostBuilder(args).Build();
 
-                var host = cfg.Host(AppConfiguration.RmqUri);
+            await host.RunAsync();
+        }
 
-                cfg.ReceiveEndpoint(KebabCaseEndpointNameFormatter.Instance.Consumer<MessageConsumer>(), configure =>
+        static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureHostConfiguration(config => config.AddEnvironmentVariables())
+                .UseSerilog()
+                .ConfigureServices((_, services) =>
                 {
-                    configure.PrefetchCount = 16;
-                    configure.Consumer(() => new MessageConsumer(loggerFactory.CreateLogger<MessageConsumer>()));
+                    services.AddMassTransit(x =>
+                    {
+                        x.AddPublishMessageScheduler();
+
+                        x.AddConsumer<MessageConsumer>();
+
+                        x.UsingRabbitMq((context, cfg) =>
+                        {
+                            cfg.UsePublishMessageScheduler();
+
+                            cfg.ConfigureEndpoints(context);
+                        });
+                    });
+
+                    services.AddOptions<MassTransitHostOptions>().Configure(options =>
+                    {
+                        options.WaitUntilStarted = true;
+                    });
+
+                    services.AddHostedService<Worker>();
                 });
-                cfg.UseMessageScheduler(new Uri($"queue:{AppConfiguration.HangfireQueueName}"));
-            });
-
-            await bus.StartAsync();
-
-            Console.WriteLine("Please enter a message and press Enter key, to quit 'q' and Enter key:");
-            var message = Console.ReadLine();
-
-            while (message != "q")
-            {
-                await bus.ScheduleSend<IMessage>(new Uri($"queue:{KebabCaseEndpointNameFormatter.Instance.Consumer<MessageConsumer>()}"), DateTime.Now.AddSeconds(10), new
-                {
-                    Id = NewId.NextGuid(),
-                    Message = message
-                });
-
-                Console.WriteLine("Please enter a message and press Enter key, to quit 'q' and Enter key:");
-                message = Console.ReadLine();
-            }
-
-            await bus.StopAsync();
-            loggerFactory.Dispose();
         }
     }
 }

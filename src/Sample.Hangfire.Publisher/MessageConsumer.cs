@@ -1,14 +1,16 @@
-using System;
-using System.Threading.Tasks;
-using MassTransit;
-using MassTransit.Util;
-using Microsoft.Extensions.Logging;
-
 namespace Sample.Hangfire.Publisher
 {
-    public class MessageConsumer : IConsumer<IMessage>
+    using System;
+    using System.Threading.Tasks;
+    using MassTransit;
+    using MassTransit.Util;
+    using Microsoft.Extensions.Logging;
+
+
+    public class MessageConsumer :
+        IConsumer<IMessage>
     {
-        private readonly ILogger<MessageConsumer> _logger;
+        readonly ILogger<MessageConsumer> _logger;
 
         public MessageConsumer(ILogger<MessageConsumer> logger)
         {

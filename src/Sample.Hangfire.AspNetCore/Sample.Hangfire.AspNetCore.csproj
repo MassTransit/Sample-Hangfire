@@ -1,23 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="3.1.0"/>
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.11"/>
-    <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0"/>
-    <PackageReference Include="MassTransit.AspNetCore" Version="6.3.2-develop.2691"/>
-    <PackageReference Include="MassTransit.Hangfire" Version="6.3.2-develop.2691"/>
-    <PackageReference Include="MassTransit.RabbitMQ" Version="6.3.2-develop.2691"/>
-    <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1"/>
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1"/>
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.28" />
+    <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
+    <PackageReference Include="MassTransit.Hangfire" Version="8.0.1-develop.401" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.1-develop.401" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Sample.Hangfire.Core\Sample.Hangfire.Core.csproj"/>
-  </ItemGroup>
-
 
 </Project>

@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Hangfire.AspNetCore"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Hangfire.Console", "Sample.Hangfire.Console\Sample.Hangfire.Console.csproj", "{0A580579-9251-4316-9D14-8151575A5A72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Hangfire.Core", "Sample.Hangfire.Core\Sample.Hangfire.Core.csproj", "{BD2DEB28-5037-49B2-A157-23E8436E8FC2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +24,5 @@ Global
 		{0A580579-9251-4316-9D14-8151575A5A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A580579-9251-4316-9D14-8151575A5A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A580579-9251-4316-9D14-8151575A5A72}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BD2DEB28-5037-49B2-A157-23E8436E8FC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD2DEB28-5037-49B2-A157-23E8436E8FC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD2DEB28-5037-49B2-A157-23E8436E8FC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD2DEB28-5037-49B2-A157-23E8436E8FC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

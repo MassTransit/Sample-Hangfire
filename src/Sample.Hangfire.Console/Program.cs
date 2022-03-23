@@ -1,45 +1,62 @@
-﻿using System.Threading.Tasks;
-using Hangfire;
-using Hangfire.MemoryStorage;
-using MassTransit;
-using MassTransit.Context;
-using Microsoft.Extensions.Logging;
-using Sample.Hangfire.Core;
-using Serilog;
-using Serilog.Events;
-using Serilog.Extensions.Logging;
-
-namespace Sample.Hangfire.Console
+﻿namespace Sample.Hangfire.Console
 {
-    internal static class Program
+    using System.Threading.Tasks;
+    using global::Hangfire;
+    using global::Hangfire.MemoryStorage;
+    using MassTransit;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Serilog;
+    using Serilog.Events;
+
+
+    public static class Program
     {
-        private static async Task Main(string[] args)
+        public static async Task Main(string[] args)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .MinimumLevel.Override("MassTransit", LogEventLevel.Debug)
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            var host = CreateHostBuilder(args).Build();
+
+            await host.RunAsync();
+        }
+
+        static IHostBuilder CreateHostBuilder(string[] args)
         {
             GlobalConfiguration.Configuration
                 .UseMemoryStorage();
 
-            var logger = new LoggerConfiguration()
-                .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
-                .CreateLogger();
-            ILoggerFactory loggerFactory = new SerilogLoggerFactory(logger, true);
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureHostConfiguration(config => config.AddEnvironmentVariables())
+                .UseSerilog()
+                .ConfigureServices((_, services) =>
+                {
+                    services.AddMassTransit(x =>
+                    {
+                        x.AddPublishMessageScheduler();
 
-            var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
-            {
-                LogContext.ConfigureCurrentLogContext(loggerFactory);
+                        x.UsingRabbitMq((context, cfg) =>
+                        {
+                            cfg.UsePublishMessageScheduler();
 
-                cfg.Host(AppConfiguration.RmqUri);
+                            cfg.UseHangfireScheduler();
 
-                cfg.UseHangfireScheduler(AppConfiguration.HangfireQueueName);
-            });
+                            cfg.ConfigureEndpoints(context);
+                        });
+                    });
 
-            await bus.StartAsync();
-
-            System.Console.WriteLine("Press Enter to quit.");
-            System.Console.ReadLine();
-
-            await bus.StopAsync();
-
-            loggerFactory.Dispose();
+                    services.AddOptions<MassTransitHostOptions>().Configure(options =>
+                    {
+                        options.WaitUntilStarted = true;
+                    });
+                });
         }
     }
 }

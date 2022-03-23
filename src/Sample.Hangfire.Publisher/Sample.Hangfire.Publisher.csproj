@@ -1,19 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit.Analyzers" Version="6.3.2-develop.2691"/>
-    <PackageReference Include="MassTransit.RabbitMQ" Version="6.3.2-develop.2691"/>
-    <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1"/>
+    <PackageReference Include="MassTransit.Analyzers" Version="8.0.1-develop.401"/>
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.1-develop.401"/>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0"/>
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0"/>
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0"/>
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Sample.Hangfire.Core\Sample.Hangfire.Core.csproj"/>
   </ItemGroup>
 
 </Project>

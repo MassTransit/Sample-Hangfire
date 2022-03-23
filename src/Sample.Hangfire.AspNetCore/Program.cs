@@ -1,22 +1,24 @@
-using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Events;
-
 namespace Sample.Hangfire.AspNetCore
 {
-    public class Program
+    using System;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+    using Serilog;
+    using Serilog.Events;
+
+
+    public static class Program
     {
         public static async Task Main(string[] args)
         {
             await CreateHostBuilder(args).Build().RunAsync();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => webBuilder
                     .UseStartup<Startup>()
                     .UseShutdownTimeout(TimeSpan.FromSeconds(15)))
@@ -24,10 +26,17 @@ namespace Sample.Hangfire.AspNetCore
                 {
                     context.ClearProviders();
 
-                    var logger = new LoggerConfiguration()
-                        .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
+                    Log.Logger = new LoggerConfiguration()
+                        .MinimumLevel.Information()
+                        .MinimumLevel.Override("MassTransit", LogEventLevel.Debug)
+                        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                        .Enrich.FromLogContext()
+                        .WriteTo.Console()
                         .CreateLogger();
-                    context.AddSerilog(logger, true);
+
+
+                    context.AddSerilog();
                 });
+        }
     }
 }
