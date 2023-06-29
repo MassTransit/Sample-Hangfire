@@ -11,18 +11,28 @@ namespace Sample.Hangfire.AspNetCore
 
     public class Startup
     {
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddHangfireServer();
 
             services
                 .AddHangfire(x => x.UseMemoryStorage())
                 .AddMassTransit(x =>
                 {
-                    x.UsingRabbitMq((context, cfg) =>
+                    x.UsingRabbitMq((_, cfg) =>
                     {
-                        cfg.UseHangfireScheduler(context);
+                        cfg.Host("rabbitmq://rabbit-server/host", configurator =>
+                        {
+                            configurator.Username("user");
+                            configurator.Password("password");
+                        });
                     });
+
+
+                    x.AddHangfireConsumers();
                 });
         }
 
