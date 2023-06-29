@@ -41,6 +41,12 @@
 
                         x.UsingRabbitMq((context, cfg) =>
                         {
+                            cfg.Host("rabbitmq://rabbit-server/host", configurator =>
+                            {
+                                configurator.Username("user");
+                                configurator.Password("password");
+                            });
+
                             cfg.UsePublishMessageScheduler();
 
                             cfg.ConfigureEndpoints(context);
